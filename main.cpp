@@ -198,8 +198,8 @@ int main()
     glUseProgram(shaderProgram);
     // 绑定VAO并绘制顶点数据
     glBindVertexArray(VAO);
-    glDrawArrays(GL_TRIANGLES, 0, 3);
-//    glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0);
+//    glDrawArrays(GL_TRIANGLES, 0, 3);
+    glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0);
     glBindVertexArray(0);
 
     // Swap the screen buffers
