@@ -6,15 +6,7 @@
 # *.xcscmblueprint
 # *.xccheckout
 
-# User settings
-*.xcodeproj/
-*.xcworkspace/
+*.xcodeproj/*
+!*.xcodeproj/project.pbxproj
+!*.xcodeproj/xcshareddata
 *.xcuserstate
-
-# Xcode 8 and earlier
-*.xcscmblueprint
-*.xccheckout
-
-# Xcode user-specific workspace settings
-**/xcuserdata/
-!**/xcuserdata/*.xcuserdatad/
