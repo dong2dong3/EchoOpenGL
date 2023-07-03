@@ -1,0 +1,20 @@
+# ## User settings
+# *.xcodeproj/*.xcworkspace/xcuserdata/
+# *.xcuserstate
+
+# ## Xcode 8 and earlier
+# *.xcscmblueprint
+# *.xccheckout
+
+# User settings
+*.xcodeproj/
+*.xcworkspace/
+*.xcuserstate
+
+# Xcode 8 and earlier
+*.xcscmblueprint
+*.xccheckout
+
+# Xcode user-specific workspace settings
+**/xcuserdata/
+!**/xcuserdata/*.xcuserdatad/
