@@ -10,3 +10,12 @@
 !*.xcodeproj/project.pbxproj
 !*.xcodeproj/xcshareddata
 *.xcuserstate
+*.xcworkspace
+**/*.xcworkspace
+# git rm --cached *.xcodeproj/project.xcworkspace/xcuserdata/*
+# git rm --cached *.xcodeproj/xcshareddata
+# git rm --cached *.xcodeproj/xcshareddata
+
+*.xcodeproj/project.xcworkspace/xcuserdata/*
+*.xcodeproj/xcshareddata
+*.xcodeproj/xcshareddata

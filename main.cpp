@@ -18,10 +18,14 @@
 #include "Shader.hpp"
 #include "ResourcePath.hpp"
 #include <filesystem>
+
+//#include "SOIL.h"
+#include <GLFW/SOIL.h>
 namespace fs = std::filesystem;
 
 
 void key_callback(GLFWwindow* window, int key, int scancode, int action, int mode);
+void loadAndCreateTexture();
 
 // 自定义错误回调函数
 static void errorCallback(int error, const char* description) {
@@ -145,6 +149,13 @@ GLuint indices[] = {  // Note that we start from 0!
     1, 2, 3   // Second Triangle
 };
 
+// Load and create a texture
+//GLuint texture;
+//Shader ourShader("./echo_shaders/textures.vs", "./echo_shaders/textures.frag");
+//"./echo_shaders/echo_shader.vs",  "./echo_shaders/echo_shader.frag"
+
+//GLuint VBO, VAO, EBO;
+
 // The MAIN function, from here we start the application and run the game loop
 int main()
 {
@@ -188,10 +199,143 @@ int main()
   }
   
   // Define the viewport dimensions
-  int width, height;
-  glfwGetFramebufferSize(window, &width, &height);
-  glViewport(0, 0, width, height);
+  glViewport(0, 0, 600, 800);
   
+/**
+ 
+ ERROR::SHADER::PROGRAM::LINKING_FAILED
+ ERROR: Compiled vertex shader was corrupt.
+ ERROR: Compiled fragment shader was corrupt.
+ 
+ */
+  
+  // Build and compile our shader program
+  Shader ourShader("./Resources/textures.vs", "./Resources/textures.frag");
+
+  // Set up vertex data (and buffer(s)) and attribute pointers
+  GLfloat vertices[] = {
+      // Positions          // Colors           // Texture Coords
+       0.5f,  0.5f, 0.0f,   1.0f, 0.0f, 0.0f,   1.0f, 1.0f, // Top Right
+       0.5f, -0.5f, 0.0f,   0.0f, 1.0f, 0.0f,   1.0f, 0.0f, // Bottom Right
+      -0.5f, -0.5f, 0.0f,   0.0f, 0.0f, 1.0f,   0.0f, 0.0f, // Bottom Left
+      -0.5f,  0.5f, 0.0f,   1.0f, 1.0f, 0.0f,   0.0f, 1.0f  // Top Left
+  };
+  GLuint indices[] = {  // Note that we start from 0!
+      0, 1, 3, // First Triangle
+      1, 2, 3  // Second Triangle
+  };
+  
+  GLuint VBO, VAO, EBO;
+  glGenVertexArrays(1, &VAO);
+  glGenBuffers(1, &VBO);
+  glGenBuffers(1, &EBO);
+
+  glBindVertexArray(VAO);
+
+  glBindBuffer(GL_ARRAY_BUFFER, VBO);
+  glBufferData(GL_ARRAY_BUFFER, sizeof(vertices), vertices, GL_STATIC_DRAW);
+
+  glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, EBO);
+  glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(indices), indices, GL_STATIC_DRAW);
+
+  // Position attribute
+  glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 8 * sizeof(GLfloat), (GLvoid*)0);
+  glEnableVertexAttribArray(0);
+  // Color attribute
+  glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, 8 * sizeof(GLfloat), (GLvoid*)(3 * sizeof(GLfloat)));
+  glEnableVertexAttribArray(1);
+  // TexCoord attribute
+  glVertexAttribPointer(2, 2, GL_FLOAT, GL_FALSE, 8 * sizeof(GLfloat), (GLvoid*)(6 * sizeof(GLfloat)));
+  glEnableVertexAttribArray(2);
+
+  glBindVertexArray(0); // Unbind VAO
+
+  
+  // Load and create a texture
+  GLuint texture;
+  glGenTextures(1, &texture);
+  glBindTexture(GL_TEXTURE_2D, texture); // All upcoming GL_TEXTURE_2D operations now have effect on this texture object
+  // Set the texture wrapping parameters
+  glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);  // Set texture wrapping to GL_REPEAT (usually basic wrapping method)
+  glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
+  // Set texture filtering parameters
+  glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+  glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+  // Load image, create texture and generate mipmaps
+  int width, height;
+  unsigned char* image = SOIL_load_image("./Resources/container.jpg", &width, &height, 0, SOIL_LOAD_RGB);
+  glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, width, height, 0, GL_RGB, GL_UNSIGNED_BYTE, image);
+  glGenerateMipmap(GL_TEXTURE_2D);
+  SOIL_free_image_data(image);
+  glBindTexture(GL_TEXTURE_2D, 0); // Unbind texture when done, so we won't accidentily mess up our texture.
+  // Game loop
+  while (!glfwWindowShouldClose(window))
+  {
+    // Check if any events have been activiated (key pressed, mouse moved etc.) and call corresponding response functions
+    glfwPollEvents();
+    
+    // Render
+    // Clear the colorbuffer
+    glClearColor(0.2f, 0.3f, 0.3f, 1.0f);
+    glClear(GL_COLOR_BUFFER_BIT);
+    
+    // Draw our first triangle
+    // 使用着色器程序
+//    glUseProgram(shaderProgram);
+    
+    // Bind Texture
+    glBindTexture(GL_TEXTURE_2D, texture);
+    
+    // Activate Shader
+    ourShader.Use();
+    
+    // Draw container
+    glBindVertexArray(VAO);
+    glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0);
+    glBindVertexArray(0);
+    
+    
+//    float offset = -0.5f;
+//    ourShader.setFloat(offset);
+//    glUniform1f(glGetUniformLocation(ourShader.Program, "someUniform"), 1.0f);
+    
+    
+    // 更新uniform颜色
+//    GLfloat timeValue = glfwGetTime();
+//    GLfloat greenValue = (sin(timeValue) / 2) + 0.5;
+//    GLint vertexColorLocation = glGetUniformLocation(shaderProgram, "ourColor");
+//    glUniform4f(vertexColorLocation, 0.0f, greenValue, 0.0f, 1.0f);
+
+
+    // 绑定VAO并绘制顶点数据
+//    glBindVertexArray(VAO);
+//    glDrawArrays(GL_TRIANGLES, 0, 3);
+//    glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0);
+//    glBindVertexArray(0);
+
+    // Swap the screen buffers
+    glfwSwapBuffers(window);
+  }
+  
+  // Properly de-allocate all resources once they've outlived their purpose
+  glDeleteVertexArrays(1, &VAO);
+  glDeleteBuffers(1, &VBO);
+  glDeleteBuffers(1, &EBO);
+  
+  // Terminate GLFW, clearing any resources allocated by GLFW.
+  glfwTerminate();
+  return 0;
+}
+
+void key_callback(GLFWwindow* window, int key, int scancode, int action, int mode)
+{
+    // 当用户按下ESC键,我们设置window窗口的WindowShouldClose属性为true
+    // 关闭应用程序
+    if(key == GLFW_KEY_ESCAPE && action == GLFW_PRESS)
+        glfwSetWindowShouldClose(window, GL_TRUE);
+}
+
+void programShaders() {
   
   // 创建顶点着色器对象和片段着色器对象
   // Build and compile our shader program
@@ -237,7 +381,30 @@ int main()
   // 删除着色器对象，因为它们已经链接到着色器程序中
   glDeleteShader(vertexShader);
   glDeleteShader(fragmentShader);
+}
+
+void draft_dir() {
+  //  Shader ourShader("echo_shader.vs", "echo_shader.frag");
+  //  Shader ourShader((resourcePath() + "echo_shader.vs").c_str(), (resourcePath() + "echo_shader.frag").c_str());
   
+  // 获取当前工作目录
+  fs::path currentPath = fs::current_path();
+  
+  // 打印当前目录
+  //"/Users/zhangjie/Library/Developer/Xcode/DerivedData/Echo_First_GLFW_APP-dnwdcxxpjabybdfweantaekjawge/Build/Products/Debug"
+  std::cout << "Current Directory: " << currentPath << std::endl;
+  
+  for (const auto& entry : fs::directory_iterator(currentPath)) {
+    std::cout << entry.path().filename() << std::endl;
+  }
+  
+  
+  //  Shader ourShader("/Users/zhangjie/Documents/SFML learning/Echo First GLFW APP(static)/echo_shaders/echo_shader.vs", "/Users/zhangjie/Documents/SFML learning/Echo First GLFW APP(static)/echo_shaders/echo_shader.frag"); //✅
+  
+  Shader ourShader("./echo_shaders/echo_shader.vs",  "./echo_shaders/echo_shader.frag");
+}
+
+void modifyVAO_VBO_VEO() {
   // 创建VAO和VBO
   GLuint VAO;
   glGenVertexArrays(1, &VAO);
@@ -276,90 +443,67 @@ int main()
   glBindBuffer(GL_ARRAY_BUFFER, 0);
   // Unbind VAO (it's always a good thing to unbind any buffer/array to prevent strange bugs)
   glBindVertexArray(0);
-
-//  Shader ourShader("echo_shader.vs", "echo_shader.frag");
-//  Shader ourShader((resourcePath() + "echo_shader.vs").c_str(), (resourcePath() + "echo_shader.frag").c_str());
-  
-  // 获取当前工作目录
-    fs::path currentPath = fs::current_path();
-
-    // 打印当前目录
-  //"/Users/zhangjie/Library/Developer/Xcode/DerivedData/Echo_First_GLFW_APP-dnwdcxxpjabybdfweantaekjawge/Build/Products/Debug"
-    std::cout << "Current Directory: " << currentPath << std::endl;
-  
-  for (const auto& entry : fs::directory_iterator(currentPath)) {
-      std::cout << entry.path().filename() << std::endl;
-  }
-
-  
-//  Shader ourShader("/Users/zhangjie/Documents/SFML learning/Echo First GLFW APP(static)/echo_shaders/echo_shader.vs", "/Users/zhangjie/Documents/SFML learning/Echo First GLFW APP(static)/echo_shaders/echo_shader.frag"); //✅
-  
-    Shader ourShader("./echo_shaders/echo_shader.vs",  "./echo_shaders/echo_shader.frag");
-
-
-/**
- 
- ERROR::SHADER::PROGRAM::LINKING_FAILED
- ERROR: Compiled vertex shader was corrupt.
- ERROR: Compiled fragment shader was corrupt.
- 
- */
-
-  // Game loop
-  while (!glfwWindowShouldClose(window))
-  {
-    // Check if any events have been activiated (key pressed, mouse moved etc.) and call corresponding response functions
-    glfwPollEvents();
-    
-    // Render
-    // Clear the colorbuffer
-    glClearColor(0.2f, 0.3f, 0.3f, 1.0f);
-    glClear(GL_COLOR_BUFFER_BIT);
-    
-    // Draw our first triangle
-    // 使用着色器程序
-//    glUseProgram(shaderProgram);
-    
-    
-    ourShader.Use();
-    float offset = -0.5f;
-    ourShader.setFloat(offset);
-    
-    glUniform1f(glGetUniformLocation(ourShader.Program, "someUniform"), 1.0f);
-    //        DrawStuff();
-    
-    
-    
-    // 更新uniform颜色
-    GLfloat timeValue = glfwGetTime();
-    GLfloat greenValue = (sin(timeValue) / 2) + 0.5;
-    GLint vertexColorLocation = glGetUniformLocation(shaderProgram, "ourColor");
-    glUniform4f(vertexColorLocation, 0.0f, greenValue, 0.0f, 1.0f);
-
-
-    // 绑定VAO并绘制顶点数据
-    glBindVertexArray(VAO);
-    glDrawArrays(GL_TRIANGLES, 0, 3);
-//    glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0);
-    glBindVertexArray(0);
-
-    // Swap the screen buffers
-    glfwSwapBuffers(window);
-  }
-  
-  // Properly de-allocate all resources once they've outlived their purpose
-  glDeleteVertexArrays(1, &VAO);
-  glDeleteBuffers(1, &VBO);
-  
-  // Terminate GLFW, clearing any resources allocated by GLFW.
-  glfwTerminate();
-  return 0;
 }
 
-void key_callback(GLFWwindow* window, int key, int scancode, int action, int mode)
-{
-    // 当用户按下ESC键,我们设置window窗口的WindowShouldClose属性为true
-    // 关闭应用程序
-    if(key == GLFW_KEY_ESCAPE && action == GLFW_PRESS)
-        glfwSetWindowShouldClose(window, GL_TRUE);
-} 
+
+void loadAndCreateTexture() {
+  // Build and compile our shader program
+  Shader ourShader("./echo_shaders/textures.vs", "./echo_shaders/textures.frag");
+
+  // Set up vertex data (and buffer(s)) and attribute pointers
+  GLfloat vertices[] = {
+      // Positions          // Colors           // Texture Coords
+       0.5f,  0.5f, 0.0f,   1.0f, 0.0f, 0.0f,   1.0f, 1.0f, // Top Right
+       0.5f, -0.5f, 0.0f,   0.0f, 1.0f, 0.0f,   1.0f, 0.0f, // Bottom Right
+      -0.5f, -0.5f, 0.0f,   0.0f, 0.0f, 1.0f,   0.0f, 0.0f, // Bottom Left
+      -0.5f,  0.5f, 0.0f,   1.0f, 1.0f, 0.0f,   0.0f, 1.0f  // Top Left
+  };
+  GLuint indices[] = {  // Note that we start from 0!
+      0, 1, 3, // First Triangle
+      1, 2, 3  // Second Triangle
+  };
+  
+  GLuint VBO, VAO, EBO;
+  glGenVertexArrays(1, &VAO);
+  glGenBuffers(1, &VBO);
+  glGenBuffers(1, &EBO);
+
+  glBindVertexArray(VAO);
+
+  glBindBuffer(GL_ARRAY_BUFFER, VBO);
+  glBufferData(GL_ARRAY_BUFFER, sizeof(vertices), vertices, GL_STATIC_DRAW);
+
+  glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, EBO);
+  glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(indices), indices, GL_STATIC_DRAW);
+
+  // Position attribute
+  glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 8 * sizeof(GLfloat), (GLvoid*)0);
+  glEnableVertexAttribArray(0);
+  // Color attribute
+  glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, 8 * sizeof(GLfloat), (GLvoid*)(3 * sizeof(GLfloat)));
+  glEnableVertexAttribArray(1);
+  // TexCoord attribute
+  glVertexAttribPointer(2, 2, GL_FLOAT, GL_FALSE, 8 * sizeof(GLfloat), (GLvoid*)(6 * sizeof(GLfloat)));
+  glEnableVertexAttribArray(2);
+
+  glBindVertexArray(0); // Unbind VAO
+
+  
+  // Load and create a texture
+  GLuint texture;
+  glGenTextures(1, &texture);
+  glBindTexture(GL_TEXTURE_2D, texture); // All upcoming GL_TEXTURE_2D operations now have effect on this texture object
+  // Set the texture wrapping parameters
+  glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);  // Set texture wrapping to GL_REPEAT (usually basic wrapping method)
+  glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
+  // Set texture filtering parameters
+  glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+  glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+  // Load image, create texture and generate mipmaps
+  int width, height;
+  unsigned char* image = SOIL_load_image("container.jpg", &width, &height, 0, SOIL_LOAD_RGB);
+  glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, width, height, 0, GL_RGB, GL_UNSIGNED_BYTE, image);
+  glGenerateMipmap(GL_TEXTURE_2D);
+  SOIL_free_image_data(image);
+  glBindTexture(GL_TEXTURE_2D, 0); // Unbind texture when done, so we won't accidentily mess up our texture.
+}
