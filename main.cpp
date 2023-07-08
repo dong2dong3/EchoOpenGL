@@ -15,6 +15,12 @@
 // GLFW
 #include <GLFW/glfw3.h>
 
+#include "Shader.hpp"
+#include "ResourcePath.hpp"
+#include <filesystem>
+namespace fs = std::filesystem;
+
+
 void key_callback(GLFWwindow* window, int key, int scancode, int action, int mode);
 
 // 自定义错误回调函数
@@ -271,7 +277,34 @@ int main()
   // Unbind VAO (it's always a good thing to unbind any buffer/array to prevent strange bugs)
   glBindVertexArray(0);
 
+//  Shader ourShader("echo_shader.vs", "echo_shader.frag");
+//  Shader ourShader((resourcePath() + "echo_shader.vs").c_str(), (resourcePath() + "echo_shader.frag").c_str());
   
+  // 获取当前工作目录
+    fs::path currentPath = fs::current_path();
+
+    // 打印当前目录
+  //"/Users/zhangjie/Library/Developer/Xcode/DerivedData/Echo_First_GLFW_APP-dnwdcxxpjabybdfweantaekjawge/Build/Products/Debug"
+    std::cout << "Current Directory: " << currentPath << std::endl;
+  
+  for (const auto& entry : fs::directory_iterator(currentPath)) {
+      std::cout << entry.path().filename() << std::endl;
+  }
+
+  
+//  Shader ourShader("/Users/zhangjie/Documents/SFML learning/Echo First GLFW APP(static)/echo_shaders/echo_shader.vs", "/Users/zhangjie/Documents/SFML learning/Echo First GLFW APP(static)/echo_shaders/echo_shader.frag"); //✅
+  
+    Shader ourShader("./echo_shaders/echo_shader.vs",  "./echo_shaders/echo_shader.frag");
+
+
+/**
+ 
+ ERROR::SHADER::PROGRAM::LINKING_FAILED
+ ERROR: Compiled vertex shader was corrupt.
+ ERROR: Compiled fragment shader was corrupt.
+ 
+ */
+
   // Game loop
   while (!glfwWindowShouldClose(window))
   {
@@ -285,7 +318,13 @@ int main()
     
     // Draw our first triangle
     // 使用着色器程序
-    glUseProgram(shaderProgram);
+//    glUseProgram(shaderProgram);
+    
+    
+    ourShader.Use();
+    glUniform1f(glGetUniformLocation(ourShader.Program, "someUniform"), 1.0f);
+    //        DrawStuff();
+    
     
     
     // 更新uniform颜色

@@ -14,17 +14,23 @@
 		2F9783D42A52E82900C3A861 /* main.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 2F9783CC2A52E82900C3A861 /* main.cpp */; };
 		2F9783D52A52E82900C3A861 /* libglfw3.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 2F9783D22A52E82900C3A861 /* libglfw3.a */; };
 		2F9785BB2A530AE000C3A861 /* libGLEW.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 2F9785BA2A530AE000C3A861 /* libGLEW.a */; };
+		2FB47CA62A5986DA008CF404 /* ResourcePath.mm in Sources */ = {isa = PBXBuildFile; fileRef = 2FB47CA52A5986DA008CF404 /* ResourcePath.mm */; };
+		2FB47CAB2A598A84008CF404 /* Shader.hpp in Sources */ = {isa = PBXBuildFile; fileRef = 2FB47C992A597F98008CF404 /* Shader.hpp */; };
+		2FB47CC82A599A2D008CF404 /* echo_shader.vs in CopyFiles */ = {isa = PBXBuildFile; fileRef = 2FB47CC42A599A1E008CF404 /* echo_shader.vs */; };
+		2FB47CC92A599A2D008CF404 /* echo_shader.frag in CopyFiles */ = {isa = PBXBuildFile; fileRef = 2FB47CC52A599A1E008CF404 /* echo_shader.frag */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
 		2F9783A22A52E21300C3A861 /* CopyFiles */ = {
 			isa = PBXCopyFilesBuildPhase;
-			buildActionMask = 2147483647;
-			dstPath = /usr/share/man/man1/;
-			dstSubfolderSpec = 0;
+			buildActionMask = 12;
+			dstPath = echo_shaders;
+			dstSubfolderSpec = 6;
 			files = (
+				2FB47CC82A599A2D008CF404 /* echo_shader.vs in CopyFiles */,
+				2FB47CC92A599A2D008CF404 /* echo_shader.frag in CopyFiles */,
 			);
-			runOnlyForDeploymentPostprocessing = 1;
+			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXCopyFilesBuildPhase section */
 
@@ -43,6 +49,11 @@
 		2F9785B62A52F6EA00C3A861 /* wglew.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = wglew.h; sourceTree = "<group>"; };
 		2F9785B72A52F6EA00C3A861 /* glew.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = glew.h; sourceTree = "<group>"; };
 		2F9785BA2A530AE000C3A861 /* libGLEW.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libGLEW.a; sourceTree = "<group>"; };
+		2FB47C992A597F98008CF404 /* Shader.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = Shader.hpp; sourceTree = "<group>"; };
+		2FB47CA42A5986DA008CF404 /* ResourcePath.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = ResourcePath.hpp; sourceTree = "<group>"; };
+		2FB47CA52A5986DA008CF404 /* ResourcePath.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = ResourcePath.mm; sourceTree = "<group>"; };
+		2FB47CC42A599A1E008CF404 /* echo_shader.vs */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.glsl; path = echo_shader.vs; sourceTree = "<group>"; };
+		2FB47CC52A599A1E008CF404 /* echo_shader.frag */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.glsl; path = echo_shader.frag; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -68,6 +79,10 @@
 				2F9783CD2A52E82900C3A861 /* include */,
 				2F9783D12A52E82900C3A861 /* lib-x86_64 */,
 				2F9783CC2A52E82900C3A861 /* main.cpp */,
+				2FB47CA42A5986DA008CF404 /* ResourcePath.hpp */,
+				2FB47CA52A5986DA008CF404 /* ResourcePath.mm */,
+				2FB47C992A597F98008CF404 /* Shader.hpp */,
+				2FB47CC32A599A1E008CF404 /* echo_shaders */,
 				2F9783A52A52E21300C3A861 /* Products */,
 				2F9783AE2A52E23000C3A861 /* Frameworks */,
 			);
@@ -130,6 +145,15 @@
 			path = GL;
 			sourceTree = "<group>";
 		};
+		2FB47CC32A599A1E008CF404 /* echo_shaders */ = {
+			isa = PBXGroup;
+			children = (
+				2FB47CC42A599A1E008CF404 /* echo_shader.vs */,
+				2FB47CC52A599A1E008CF404 /* echo_shader.frag */,
+			);
+			path = echo_shaders;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -187,6 +211,8 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				2FB47CAB2A598A84008CF404 /* Shader.hpp in Sources */,
+				2FB47CA62A5986DA008CF404 /* ResourcePath.mm in Sources */,
 				2F9783D42A52E82900C3A861 /* main.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
