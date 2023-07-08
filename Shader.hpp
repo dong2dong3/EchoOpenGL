@@ -113,6 +113,13 @@ public:
   {
       glUseProgram(this->Program);
   }
+  
+  void setFloat(float offset) {
+    GLint xOffset = glGetUniformLocation(this->Program, "xOffset");
+    glUseProgram(this->Program);
+    glUniform1f(xOffset, offset);
+  }
+  
 };
 
 #endif /* Shader_hpp */

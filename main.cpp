@@ -322,6 +322,9 @@ int main()
     
     
     ourShader.Use();
+    float offset = -0.5f;
+    ourShader.setFloat(offset);
+    
     glUniform1f(glGetUniformLocation(ourShader.Program, "someUniform"), 1.0f);
     //        DrawStuff();
     
