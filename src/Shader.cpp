@@ -106,3 +106,8 @@ Shader::Shader(const GLchar* vertexPath, const GLchar* fragmentPath) {
     glUniform1f(xOffset, offset);
   }
   
+//void Shader::setShow(int show) {
+//  GLint sshow = glGetUniformLocation(Program, "show");
+//  glUseProgram(Program);
+//  glUniform1f(sshow, show);
+//}

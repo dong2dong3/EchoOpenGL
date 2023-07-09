@@ -18,7 +18,7 @@ public:
   void Use();
   
   void setFloat(float offset);
-  
+//  void setShow(int show);
 };
 
 #endif /* Shader_hpp */

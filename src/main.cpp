@@ -40,6 +40,8 @@ static void errorCallback(int error, const char* description) {
 
 // Window dimensions
 const GLuint WIDTH = 800, HEIGHT = 600;
+// Holds uniform value of texture mix
+GLfloat mixValue = 0.2f;
 
 // Shaders
 const GLchar* vertexShaderSource =
@@ -224,11 +226,11 @@ int main()
 
   // Set up vertex data (and buffer(s)) and attribute pointers
   GLfloat vertices[] = {
-      // Positions          // Colors           // Texture Coords  (Note that we changed them to 'zoom in' on our texture image)
-       0.5f,  0.5f, 0.0f,   1.0f, 0.0f, 0.0f,   0.55f, 0.55f, // Top Right
-       0.5f, -0.5f, 0.0f,   0.0f, 1.0f, 0.0f,   0.55f, 0.45f, // Bottom Right
-      -0.5f, -0.5f, 0.0f,   0.0f, 0.0f, 1.0f,   0.45f, 0.45f, // Bottom Left
-      -0.5f,  0.5f, 0.0f,   1.0f, 1.0f, 0.0f,   0.45f, 0.55f  // Top Left
+      // Positions          // Colors           // Texture Coords
+       0.5f,  0.5f, 0.0f,   1.0f, 0.0f, 0.0f,   1.0f, 1.0f, // Top Right
+       0.5f, -0.5f, 0.0f,   0.0f, 1.0f, 0.0f,   1.0f, 0.0f, // Bottom Right
+      -0.5f, -0.5f, 0.0f,   0.0f, 0.0f, 1.0f,   0.0f, 0.0f, // Bottom Left
+      -0.5f,  0.5f, 0.0f,   1.0f, 1.0f, 0.0f,   0.0f, 1.0f  // Top Left
   };
   GLuint indices[] = {  // Note that we start from 0!
       0, 1, 3, // First Triangle
@@ -269,8 +271,8 @@ int main()
   glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);  // Set texture wrapping to GL_REPEAT (usually basic wrapping method)
   glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
   // Set texture filtering parameters
-  glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
-  glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
+  glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+  glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
   // Load image, create texture and generate mipmaps
   int width, height;
   unsigned char* image = SOIL_load_image(getImageResourcePathWith("container.jpg"), &width, &height, 0, SOIL_LOAD_RGB);
@@ -291,8 +293,8 @@ int main()
   glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
   
   // Set texture filtering
-  glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
-  glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
+  glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+  glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
   
   //Load, Create texture and generate mipmaps
   image = SOIL_load_image(getImageResourcePathWith("awesomeface.png"), &width, &height, 0, SOIL_LOAD_RGB);
@@ -329,6 +331,9 @@ int main()
     glActiveTexture(GL_TEXTURE1);
     glBindTexture(GL_TEXTURE_2D, texture2);
     glUniform1i(glGetUniformLocation(ourShader.Program, "ourTexture2"), 1);
+    
+    // Set current value of uniform mix
+    glUniform1f(glGetUniformLocation(ourShader.Program, "mixValue"), mixValue);
     
     // Draw container
     glBindVertexArray(VAO);
@@ -368,12 +373,25 @@ int main()
   return 0;
 }
 
+// Is called whenever a key is pressed/released via GLFW
 void key_callback(GLFWwindow* window, int key, int scancode, int action, int mode)
 {
-    // 当用户按下ESC键,我们设置window窗口的WindowShouldClose属性为true
-    // 关闭应用程序
-    if(key == GLFW_KEY_ESCAPE && action == GLFW_PRESS)
-        glfwSetWindowShouldClose(window, GL_TRUE);
+  // 当用户按下ESC键,我们设置window窗口的WindowShouldClose属性为true
+  // 关闭应用程序
+  if(key == GLFW_KEY_ESCAPE && action == GLFW_PRESS)
+    glfwSetWindowShouldClose(window, GL_TRUE);
+  
+  // change value of uniform with arrow keys(set amount of textre mix)
+  if(key == GLFW_KEY_UP && action == GLFW_PRESS) {
+    mixValue += 0.1f;
+    if (mixValue >= 1.0f) mixValue = 1.0f;
+    
+  }
+  if (key == GLFW_KEY_DOWN && action == GLFW_PRESS)
+  {
+    mixValue -= 0.1f;
+    if (mixValue <= 0.0f) mixValue = 0.0f;
+  }
 }
 
 void programShaders() {
