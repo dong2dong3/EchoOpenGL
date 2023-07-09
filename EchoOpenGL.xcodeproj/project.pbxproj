@@ -501,6 +501,7 @@
 		2FB47EA92A5AFC5B008CF404 /* rotate_normalized_axis.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = rotate_normalized_axis.hpp; sourceTree = "<group>"; };
 		2FB47EAA2A5AFC5B008CF404 /* projection.inl */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = projection.inl; sourceTree = "<group>"; };
 		2FB47EAB2A5AFC5B008CF404 /* type_aligned.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = type_aligned.hpp; sourceTree = "<group>"; };
+		2FB47EAD2A5B2610008CF404 /* Vertices.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Vertices.h; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -622,6 +623,7 @@
 				2FB47CA52A5986DA008CF404 /* ResourcePath.mm */,
 				2FB47C992A597F98008CF404 /* Shader.hpp */,
 				2FB47CF72A5A7860008CF404 /* Shader.cpp */,
+				2FB47EAD2A5B2610008CF404 /* Vertices.h */,
 			);
 			path = src;
 			sourceTree = "<group>";
