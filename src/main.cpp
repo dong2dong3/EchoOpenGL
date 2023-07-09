@@ -391,6 +391,7 @@ int main()
   
 //  draft_dir();
   // Game loop
+  int seed = 0;
   while (!glfwWindowShouldClose(window))
   {
     // Check if any events have been activiated (key pressed, mouse moved etc.) and call corresponding response functions
@@ -457,8 +458,12 @@ int main()
     {
       glm::mat4 model = glm::mat4(1.0f);
       model = glm::translate(model, cubePositions[i]);
-      GLfloat angle = 20.0f * i;
-      model = glm::rotate(model, (GLfloat)glfwGetTime() * glm::radians(angle), glm::vec3(1.0f, 0.3f, 0.5f));
+//      bool valid =  (seed + i) % 4 > 0 && (seed + i) % 4 < 4;
+      GLfloat angle = 10.0f * i;
+      if(i % 3 == 0)  angle = glfwGetTime() * angle;
+
+//      seed = seed + 1;
+      model = glm::rotate(model, glm::radians(angle), glm::vec3(1.0f, 0.3f, 0.5f));
       glUniformMatrix4fv(modelLoc, 1, GL_FALSE, glm::value_ptr(model));
 
       glDrawArrays(GL_TRIANGLES, 0, 36);
