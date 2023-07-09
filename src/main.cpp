@@ -21,8 +21,6 @@
 
 //#include "SOIL.h"
 #include <GLFW/SOIL.h>
-namespace fs = std::filesystem;
-
 
 void key_callback(GLFWwindow* window, int key, int scancode, int action, int mode);
 void loadAndCreateTexture();
@@ -31,6 +29,10 @@ void listFilesRecursively(const std::filesystem::path& path);
 //const char* getResourcePathWith(const std::string filename);
 const char* getResourcePathWith(const std::string& filename);
 const char* concatenatePath(const std::filesystem::path& directoryPath, const std::string& filename);
+
+const char* getImageResourcePathWith(const std::string& filename);
+
+const char* getShadersResourcePathWith(const std::string& filename);
 // 自定义错误回调函数
 static void errorCallback(int error, const char* description) {
     std::cerr << "GLFW Error " << error << ": " << description << std::endl;
@@ -218,7 +220,7 @@ int main()
   
   // Build and compile our shader program
 //  Shader ourShader((executableParentPath/ "Resources" / "textures.vs").c_str(), (executableParentPath/ "Resources" / "textures.frag").c_str());
-  Shader ourShader(getResourcePathWith("textures.vs"), getResourcePathWith("textures.frag"));
+  Shader ourShader(getShadersResourcePathWith("textures.vs"), getShadersResourcePathWith("textures.frag"));
 
   // Set up vertex data (and buffer(s)) and attribute pointers
   GLfloat vertices[] = {
@@ -271,7 +273,7 @@ int main()
   glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
   // Load image, create texture and generate mipmaps
   int width, height;
-  unsigned char* image = SOIL_load_image(getResourcePathWith("container.jpg"), &width, &height, 0, SOIL_LOAD_RGB);
+  unsigned char* image = SOIL_load_image(getImageResourcePathWith("container.jpg"), &width, &height, 0, SOIL_LOAD_RGB);
 
   glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, width, height, 0, GL_RGB, GL_UNSIGNED_BYTE, image);
   glGenerateMipmap(GL_TEXTURE_2D);
@@ -416,8 +418,8 @@ void draft_dir() {
 //  const char* file = concatenatePath(dirPath, "Resources/textures.frag");  //getResourcePathWith("Resources/textures.frag");
   // zjzjzj
   // /Users/zhangjie/Resources/textures.frag
-  const char* file1 = getResourcePathWith("textures.vs");
-  const char* file2 = getResourcePathWith("textures.frag");
+  const char* file1 = getShadersResourcePathWith("textures.vs");
+  const char* file2 = getShadersResourcePathWith("textures.frag");
   std::cout <<"\nzjzjzj"<< file1 << "\nzjzjzj\n" << file2 << std::endl;
 //  if (std::filesystem::exists(resourcePath1)) {
 //      std::cout << "Resource file exists: " << resourcePath << std::endl;
@@ -582,11 +584,30 @@ const char* concatenatePath(const std::filesystem::path& directoryPath, const st
   return result;
 }
 
-
 const char* getResourcePathWith(const std::string& filename)
 {
   std::filesystem::path filePath = std::filesystem::current_path();
   filePath.append("Resources/" + filename);
+  std::string filePathString = filePath.string();
+  char* result = new char[filePathString.length() + 1];
+  std::strcpy(result, filePathString.c_str());
+  return result;
+}
+
+const char* getImageResourcePathWith(const std::string& filename)
+{
+  std::filesystem::path filePath = std::filesystem::current_path();
+  filePath.append("Resources/" + filename);
+  std::string filePathString = filePath.string();
+  char* result = new char[filePathString.length() + 1];
+  std::strcpy(result, filePathString.c_str());
+  return result;
+}
+
+const char* getShadersResourcePathWith(const std::string& filename)
+{
+  std::filesystem::path filePath = std::filesystem::current_path();
+  filePath.append("Resources/echo_shaders/" + filename);
   std::string filePathString = filePath.string();
   char* result = new char[filePathString.length() + 1];
   std::strcpy(result, filePathString.c_str());

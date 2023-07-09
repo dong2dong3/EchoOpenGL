@@ -1,34 +1,20 @@
 //
-//  Shader.hpp
+//  Shader.cpp
 //  Echo First GLFW APP
 //
-//  Created by zhangjie on 2023/7/8.
+//  Created by zhangjie on 2023/7/9.
 //
 
-#ifndef SHADER_H
-#define SHADER_H
-
+#include "Shader.hpp"
 #include <stdio.h>
 
 #include <string>
 #include <fstream>
 #include <sstream>
 #include <iostream>
-
 #include <GL/glew.h>
 
-class Shader {
-  
-public:
-  // 程序ID
-  GLuint Program;
-  
-  // 构造器读取并构建着色器
-//  Shader(const GLchar* vertexPath, const GLchar* fragmentPath);
-//  void Use();
-  
-  
-  Shader(const GLchar* vertexPath, const GLchar* fragmentPath) {
+Shader::Shader(const GLchar* vertexPath, const GLchar* fragmentPath) {
     // 1. 从文件路径中获取顶点/片段着色器
     std::string vertexCode;
     std::string fragmentCode;
@@ -109,17 +95,14 @@ public:
     
   }
   
-  void Use()
+  void Shader::Use()
   {
-      glUseProgram(this->Program);
+      glUseProgram(Program);
   }
   
-  void setFloat(float offset) {
-    GLint xOffset = glGetUniformLocation(this->Program, "xOffset");
-    glUseProgram(this->Program);
+  void Shader::setFloat(float offset) {
+    GLint xOffset = glGetUniformLocation(Program, "xOffset");
+    glUseProgram(Program);
     glUniform1f(xOffset, offset);
   }
   
-};
-
-#endif /* Shader_hpp */

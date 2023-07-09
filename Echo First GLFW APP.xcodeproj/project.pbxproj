@@ -16,12 +16,13 @@
 		2F9785BB2A530AE000C3A861 /* libGLEW.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 2F9785BA2A530AE000C3A861 /* libGLEW.a */; };
 		2FB47CA62A5986DA008CF404 /* ResourcePath.mm in Sources */ = {isa = PBXBuildFile; fileRef = 2FB47CA52A5986DA008CF404 /* ResourcePath.mm */; };
 		2FB47CAB2A598A84008CF404 /* Shader.hpp in Sources */ = {isa = PBXBuildFile; fileRef = 2FB47C992A597F98008CF404 /* Shader.hpp */; };
-		2FB47CC82A599A2D008CF404 /* echo_shader.vs in CopyFiles */ = {isa = PBXBuildFile; fileRef = 2FB47CC42A599A1E008CF404 /* echo_shader.vs */; };
-		2FB47CC92A599A2D008CF404 /* echo_shader.frag in CopyFiles */ = {isa = PBXBuildFile; fileRef = 2FB47CC52A599A1E008CF404 /* echo_shader.frag */; };
 		2FB47CE72A59C5E5008CF404 /* libSOIL.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 2FB47CE62A59C5E5008CF404 /* libSOIL.a */; };
-		2FB47CEC2A59CBAF008CF404 /* textures.frag in CopyFiles */ = {isa = PBXBuildFile; fileRef = 2FB47CEB2A59C824008CF404 /* textures.frag */; };
-		2FB47CED2A59CBAF008CF404 /* textures.vs in CopyFiles */ = {isa = PBXBuildFile; fileRef = 2FB47CEA2A59C824008CF404 /* textures.vs */; };
 		2FB47CEF2A59CF45008CF404 /* container.jpg in CopyFiles */ = {isa = PBXBuildFile; fileRef = 2FB47CEE2A59CF1A008CF404 /* container.jpg */; };
+		2FB47CF82A5A7860008CF404 /* Shader.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 2FB47CF72A5A7860008CF404 /* Shader.cpp */; };
+		2FB47CFA2A5A97FF008CF404 /* echo_shader.vs in CopyFiles */ = {isa = PBXBuildFile; fileRef = 2FB47CC42A599A1E008CF404 /* echo_shader.vs */; };
+		2FB47CFB2A5A97FF008CF404 /* echo_shader.frag in CopyFiles */ = {isa = PBXBuildFile; fileRef = 2FB47CC52A599A1E008CF404 /* echo_shader.frag */; };
+		2FB47CFC2A5A97FF008CF404 /* textures.frag in CopyFiles */ = {isa = PBXBuildFile; fileRef = 2FB47CEB2A59C824008CF404 /* textures.frag */; };
+		2FB47CFD2A5A97FF008CF404 /* textures.vs in CopyFiles */ = {isa = PBXBuildFile; fileRef = 2FB47CEA2A59C824008CF404 /* textures.vs */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -32,10 +33,19 @@
 			dstSubfolderSpec = 7;
 			files = (
 				2FB47CEF2A59CF45008CF404 /* container.jpg in CopyFiles */,
-				2FB47CEC2A59CBAF008CF404 /* textures.frag in CopyFiles */,
-				2FB47CED2A59CBAF008CF404 /* textures.vs in CopyFiles */,
-				2FB47CC82A599A2D008CF404 /* echo_shader.vs in CopyFiles */,
-				2FB47CC92A599A2D008CF404 /* echo_shader.frag in CopyFiles */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		2FB47CF92A5A97E9008CF404 /* CopyFiles */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = Resources/echo_shaders;
+			dstSubfolderSpec = 7;
+			files = (
+				2FB47CFA2A5A97FF008CF404 /* echo_shader.vs in CopyFiles */,
+				2FB47CFB2A5A97FF008CF404 /* echo_shader.frag in CopyFiles */,
+				2FB47CFC2A5A97FF008CF404 /* textures.frag in CopyFiles */,
+				2FB47CFD2A5A97FF008CF404 /* textures.vs in CopyFiles */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -66,6 +76,7 @@
 		2FB47CEA2A59C824008CF404 /* textures.vs */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.glsl; path = textures.vs; sourceTree = "<group>"; };
 		2FB47CEB2A59C824008CF404 /* textures.frag */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.glsl; path = textures.frag; sourceTree = "<group>"; };
 		2FB47CEE2A59CF1A008CF404 /* container.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = container.jpg; sourceTree = "<group>"; };
+		2FB47CF72A5A7860008CF404 /* Shader.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = Shader.cpp; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -92,10 +103,7 @@
 				2FB47CE92A59C7A4008CF404 /* Resources */,
 				2F9783CD2A52E82900C3A861 /* include */,
 				2F9783D12A52E82900C3A861 /* lib-x86_64 */,
-				2F9783CC2A52E82900C3A861 /* main.cpp */,
-				2FB47CA42A5986DA008CF404 /* ResourcePath.hpp */,
-				2FB47CA52A5986DA008CF404 /* ResourcePath.mm */,
-				2FB47C992A597F98008CF404 /* Shader.hpp */,
+				2FB47CF62A5A7642008CF404 /* src */,
 				2F9783A52A52E21300C3A861 /* Products */,
 				2F9783AE2A52E23000C3A861 /* Frameworks */,
 			);
@@ -180,6 +188,18 @@
 			path = Resources;
 			sourceTree = "<group>";
 		};
+		2FB47CF62A5A7642008CF404 /* src */ = {
+			isa = PBXGroup;
+			children = (
+				2F9783CC2A52E82900C3A861 /* main.cpp */,
+				2FB47CA42A5986DA008CF404 /* ResourcePath.hpp */,
+				2FB47CA52A5986DA008CF404 /* ResourcePath.mm */,
+				2FB47C992A597F98008CF404 /* Shader.hpp */,
+				2FB47CF72A5A7860008CF404 /* Shader.cpp */,
+			);
+			path = src;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -190,6 +210,7 @@
 				2F9783A02A52E21300C3A861 /* Sources */,
 				2F9783A12A52E21300C3A861 /* Frameworks */,
 				2F9783A22A52E21300C3A861 /* CopyFiles */,
+				2FB47CF92A5A97E9008CF404 /* CopyFiles */,
 			);
 			buildRules = (
 			);
@@ -239,6 +260,7 @@
 			files = (
 				2FB47CAB2A598A84008CF404 /* Shader.hpp in Sources */,
 				2FB47CA62A5986DA008CF404 /* ResourcePath.mm in Sources */,
+				2FB47CF82A5A7860008CF404 /* Shader.cpp in Sources */,
 				2F9783D42A52E82900C3A861 /* main.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

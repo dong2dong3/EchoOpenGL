@@ -19,3 +19,4 @@
 *.xcodeproj/project.xcworkspace/xcuserdata/*
 *.xcodeproj/xcshareddata
 *.xcodeproj/xcshareddata
+build/
