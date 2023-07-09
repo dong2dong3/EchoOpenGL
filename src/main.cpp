@@ -357,12 +357,29 @@ int main()
     
     //要让箱子随着时间推移旋转，我们必须在游戏循环中更新变换矩阵，因为它在每一次渲染迭代中都要更新。
 //    glm::vec4 vec(1.0f, 0.0f, 0.0f, 1.0f);
-    glm::mat4 trans = glm::mat4(1.0f);
-    trans = glm::rotate(trans, (GLfloat)glfwGetTime() * glm::radians(50.0f), glm::vec3(0.0f, 0.0f, 1.0f));
-    trans = glm::translate(trans, glm::vec3(0.5f, -0.5f, 0.0f));
+//    glm::mat4 trans = glm::mat4(1.0f);
+//    trans = glm::rotate(trans, (GLfloat)glfwGetTime() * glm::radians(50.0f), glm::vec3(0.0f, 0.0f, 1.0f));
+//    trans = glm::translate(trans, glm::vec3(0.5f, -0.5f, 0.0f));
+//
+//    GLuint transformLoc = glGetUniformLocation(ourShader.Program, "transform");
+//    glUniformMatrix4fv(transformLoc, 1, GL_FALSE, glm::value_ptr(trans));
     
-    GLuint transformLoc = glGetUniformLocation(ourShader.Program, "transform");
-    glUniformMatrix4fv(transformLoc, 1, GL_FALSE, glm::value_ptr(trans));
+    // Create transformations
+    glm::mat4 model = glm::mat4(1.0f);
+    glm::mat4 view = glm::mat4(1.0f);
+    glm::mat4 projection = glm::mat4(1.0f);
+    model = glm::rotate(model, glm::radians(-55.0f), glm::vec3(1.0f, 0.0f, 0.0f));
+    view = glm::translate(view, glm::vec3(0.0f, 0.0f, -3.0f));
+    projection = glm::perspective(45.0f, (GLfloat)WIDTH / (GLfloat)HEIGHT, 0.1f, 100.0f);
+    // Get their uniform location
+    GLint modelLoc = glGetUniformLocation(ourShader.Program, "model");
+    GLint viewLoc = glGetUniformLocation(ourShader.Program, "view");
+    GLint projLoc = glGetUniformLocation(ourShader.Program, "projection");
+    // Pass them to the shaders
+    glUniformMatrix4fv(modelLoc, 1, GL_FALSE, glm::value_ptr(model));
+    glUniformMatrix4fv(viewLoc, 1, GL_FALSE, glm::value_ptr(view));
+    // Note: currently we set the projection matrix each frame, but since the projection matrix rarely changes it's often best practice to set it outside the main loop only once.
+    glUniformMatrix4fv(projLoc, 1, GL_FALSE, glm::value_ptr(projection));
     
     // Draw container
     glBindVertexArray(VAO);
@@ -371,12 +388,12 @@ int main()
     
     // Second transformation
     // ===================
-    glm::mat4 trans2 = glm::mat4(1.0f); // Reset it to an identity matrix
-    trans2 = glm::translate(trans2, glm::vec3(-0.5f, 0.5f, 0.0f));
-    GLfloat scaleAmount = sin(glfwGetTime());
-    trans2 = glm::scale(trans2, glm::vec3(scaleAmount, scaleAmount, scaleAmount));
-    glUniformMatrix4fv(transformLoc, 1, GL_FALSE, glm::value_ptr(trans2));
-    
+//    glm::mat4 trans2 = glm::mat4(1.0f); // Reset it to an identity matrix
+//    trans2 = glm::translate(trans2, glm::vec3(-0.5f, 0.5f, 0.0f));
+//    GLfloat scaleAmount = sin(glfwGetTime());
+//    trans2 = glm::scale(trans2, glm::vec3(scaleAmount, scaleAmount, scaleAmount));
+//    glUniformMatrix4fv(transformLoc, 1, GL_FALSE, glm::value_ptr(trans2));
+//
     // Now with the uniform matrix being replaced with new transformations, draw it again.
     glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0);
     glBindVertexArray(0);
