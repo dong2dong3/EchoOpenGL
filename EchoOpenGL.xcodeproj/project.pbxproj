@@ -23,6 +23,7 @@
 		2FB47CFB2A5A97FF008CF404 /* echo_shader.frag in CopyFiles */ = {isa = PBXBuildFile; fileRef = 2FB47CC52A599A1E008CF404 /* echo_shader.frag */; };
 		2FB47CFC2A5A97FF008CF404 /* textures.frag in CopyFiles */ = {isa = PBXBuildFile; fileRef = 2FB47CEB2A59C824008CF404 /* textures.frag */; };
 		2FB47CFD2A5A97FF008CF404 /* textures.vs in CopyFiles */ = {isa = PBXBuildFile; fileRef = 2FB47CEA2A59C824008CF404 /* textures.vs */; };
+		2FB47CFF2A5AC706008CF404 /* awesomeface.png in CopyFiles */ = {isa = PBXBuildFile; fileRef = 2FB47CFE2A5AC1CA008CF404 /* awesomeface.png */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -32,6 +33,7 @@
 			dstPath = Resources;
 			dstSubfolderSpec = 7;
 			files = (
+				2FB47CFF2A5AC706008CF404 /* awesomeface.png in CopyFiles */,
 				2FB47CEF2A59CF45008CF404 /* container.jpg in CopyFiles */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -77,6 +79,7 @@
 		2FB47CEB2A59C824008CF404 /* textures.frag */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.glsl; path = textures.frag; sourceTree = "<group>"; };
 		2FB47CEE2A59CF1A008CF404 /* container.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = container.jpg; sourceTree = "<group>"; };
 		2FB47CF72A5A7860008CF404 /* Shader.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = Shader.cpp; sourceTree = "<group>"; };
+		2FB47CFE2A5AC1CA008CF404 /* awesomeface.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = awesomeface.png; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -182,6 +185,7 @@
 		2FB47CE92A59C7A4008CF404 /* Resources */ = {
 			isa = PBXGroup;
 			children = (
+				2FB47CFE2A5AC1CA008CF404 /* awesomeface.png */,
 				2FB47CC32A599A1E008CF404 /* echo_shaders */,
 				2FB47CEE2A59CF1A008CF404 /* container.jpg */,
 			);
