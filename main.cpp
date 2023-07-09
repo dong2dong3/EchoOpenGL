@@ -414,8 +414,11 @@ void draft_dir() {
 //
 //  std::filesystem::path dirPath = std::filesystem::current_path();
 //  const char* file = concatenatePath(dirPath, "Resources/textures.frag");  //getResourcePathWith("Resources/textures.frag");
-//  const char* file2 = getResourcePathWith("Resources/textures.frag");
-//  std::cout << file << "zjzjzj" << file2 << std::endl;
+  // zjzjzj
+  // /Users/zhangjie/Resources/textures.frag
+  const char* file1 = getResourcePathWith("textures.vs");
+  const char* file2 = getResourcePathWith("textures.frag");
+  std::cout <<"\nzjzjzj"<< file1 << "\nzjzjzj\n" << file2 << std::endl;
 //  if (std::filesystem::exists(resourcePath1)) {
 //      std::cout << "Resource file exists: " << resourcePath << std::endl;
 //  } else {
