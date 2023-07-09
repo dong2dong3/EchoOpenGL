@@ -171,8 +171,6 @@ GLuint indices[] = {  // Note that we start from 0!
 // The MAIN function, from here we start the application and run the game loop
 
 std::filesystem::path executableParentPath = std::filesystem::current_path();
-glm::vec4 vec(1.0f, 0.0f, 0.0f, 1.0f);
-glm::mat4 trans = glm::mat4(1.0f);
 
 std::ostream& operator<<(std::ostream& os, const glm::mat4& mat) {
     for (int i = 0; i < 4; i++) {
@@ -186,11 +184,14 @@ std::ostream& operator<<(std::ostream& os, const glm::mat4& mat) {
 int main()
 {
   std::cout << "Starting GLFW context, OpenGL 3.3" << std::endl;
-  trans = glm::translate(trans, glm::vec3(1.0f, 1.0f, 0.0f));
-  std::cout << trans << std::endl;
-
-  vec = trans * vec;
-  std::cout << vec.x << "xx" << vec.y  << "yy" << vec.z << "zz" << std::endl;
+//  trans = glm::translate(trans, glm::vec3(1.0f, 1.0f, 0.0f));
+//  std::cout << trans << std::endl;
+//
+//  vec = trans * vec;
+//  std::cout << vec.x << "xx" << vec.y  << "yy" << vec.z << "zz" << std::endl;
+  //我们的箱子向左侧旋转，并是原来的一半大小
+//  trans = glm::rotate(trans, glm::radians(90.0f), glm::vec3(0.0, 0.0, 1.0));
+//  trans = glm::scale(trans, glm::vec3(0.5, 0.5, 0.5));
   // Init GLFW
   glfwInit();
   
@@ -354,8 +355,29 @@ int main()
     // Set current value of uniform mix
     glUniform1f(glGetUniformLocation(ourShader.Program, "mixValue"), mixValue);
     
+    //要让箱子随着时间推移旋转，我们必须在游戏循环中更新变换矩阵，因为它在每一次渲染迭代中都要更新。
+//    glm::vec4 vec(1.0f, 0.0f, 0.0f, 1.0f);
+    glm::mat4 trans = glm::mat4(1.0f);
+    trans = glm::rotate(trans, (GLfloat)glfwGetTime() * glm::radians(50.0f), glm::vec3(0.0f, 0.0f, 1.0f));
+    trans = glm::translate(trans, glm::vec3(0.5f, -0.5f, 0.0f));
+    
+    GLuint transformLoc = glGetUniformLocation(ourShader.Program, "transform");
+    glUniformMatrix4fv(transformLoc, 1, GL_FALSE, glm::value_ptr(trans));
+    
     // Draw container
     glBindVertexArray(VAO);
+    glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0);
+//    glBindVertexArray(0);
+    
+    // Second transformation
+    // ===================
+    glm::mat4 trans2 = glm::mat4(1.0f); // Reset it to an identity matrix
+    trans2 = glm::translate(trans2, glm::vec3(-0.5f, 0.5f, 0.0f));
+    GLfloat scaleAmount = sin(glfwGetTime());
+    trans2 = glm::scale(trans2, glm::vec3(scaleAmount, scaleAmount, scaleAmount));
+    glUniformMatrix4fv(transformLoc, 1, GL_FALSE, glm::value_ptr(trans2));
+    
+    // Now with the uniform matrix being replaced with new transformations, draw it again.
     glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0);
     glBindVertexArray(0);
     
