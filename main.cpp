@@ -26,7 +26,11 @@ namespace fs = std::filesystem;
 
 void key_callback(GLFWwindow* window, int key, int scancode, int action, int mode);
 void loadAndCreateTexture();
-
+void draft_dir();
+void listFilesRecursively(const std::filesystem::path& path);
+//const char* getResourcePathWith(const std::string filename);
+const char* getResourcePathWith(const std::string& filename);
+const char* concatenatePath(const std::filesystem::path& directoryPath, const std::string& filename);
 // 自定义错误回调函数
 static void errorCallback(int error, const char* description) {
     std::cerr << "GLFW Error " << error << ": " << description << std::endl;
@@ -157,6 +161,9 @@ GLuint indices[] = {  // Note that we start from 0!
 //GLuint VBO, VAO, EBO;
 
 // The MAIN function, from here we start the application and run the game loop
+
+std::filesystem::path executableParentPath = std::filesystem::current_path();
+
 int main()
 {
   std::cout << "Starting GLFW context, OpenGL 3.3" << std::endl;
@@ -199,7 +206,7 @@ int main()
   }
   
   // Define the viewport dimensions
-  glViewport(0, 0, 600, 800);
+  glViewport(0, 0, HEIGHT, WIDTH);
   
 /**
  
@@ -210,7 +217,8 @@ int main()
  */
   
   // Build and compile our shader program
-  Shader ourShader("./Resources/textures.vs", "./Resources/textures.frag");
+//  Shader ourShader((executableParentPath/ "Resources" / "textures.vs").c_str(), (executableParentPath/ "Resources" / "textures.frag").c_str());
+  Shader ourShader(getResourcePathWith("textures.vs"), getResourcePathWith("textures.frag"));
 
   // Set up vertex data (and buffer(s)) and attribute pointers
   GLfloat vertices[] = {
@@ -263,11 +271,14 @@ int main()
   glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
   // Load image, create texture and generate mipmaps
   int width, height;
-  unsigned char* image = SOIL_load_image("./Resources/container.jpg", &width, &height, 0, SOIL_LOAD_RGB);
+  unsigned char* image = SOIL_load_image(getResourcePathWith("container.jpg"), &width, &height, 0, SOIL_LOAD_RGB);
+
   glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, width, height, 0, GL_RGB, GL_UNSIGNED_BYTE, image);
   glGenerateMipmap(GL_TEXTURE_2D);
   SOIL_free_image_data(image);
   glBindTexture(GL_TEXTURE_2D, 0); // Unbind texture when done, so we won't accidentily mess up our texture.
+  
+  draft_dir();
   // Game loop
   while (!glfwWindowShouldClose(window))
   {
@@ -388,20 +399,38 @@ void draft_dir() {
   //  Shader ourShader((resourcePath() + "echo_shader.vs").c_str(), (resourcePath() + "echo_shader.frag").c_str());
   
   // 获取当前工作目录
-  fs::path currentPath = fs::current_path();
+//  fs::path currentPath = fs::current_path();
   
   // 打印当前目录
   //"/Users/zhangjie/Library/Developer/Xcode/DerivedData/Echo_First_GLFW_APP-dnwdcxxpjabybdfweantaekjawge/Build/Products/Debug"
-  std::cout << "Current Directory: " << currentPath << std::endl;
+//  std::cout << "Current Directory: " << currentPath << std::endl;
+//  listFilesRecursively(currentPath);
   
-  for (const auto& entry : fs::directory_iterator(currentPath)) {
-    std::cout << entry.path().filename() << std::endl;
-  }
+//  std::filesystem::path executablePath = std::filesystem::current_path() / "myExecutable";
+//  std::cout << "executablePath file exists: " << executablePath << std::endl;
+
+//  std::filesystem::path resourcePath = executablePath.parent_path() / "Resources" / "textures.frag";
+//  std::filesystem::path resourcePath1 = executableParentPath / "Resources" / "textures.frag";
+//
+//  std::filesystem::path dirPath = std::filesystem::current_path();
+//  const char* file = concatenatePath(dirPath, "Resources/textures.frag");  //getResourcePathWith("Resources/textures.frag");
+//  const char* file2 = getResourcePathWith("Resources/textures.frag");
+//  std::cout << file << "zjzjzj" << file2 << std::endl;
+//  if (std::filesystem::exists(resourcePath1)) {
+//      std::cout << "Resource file exists: " << resourcePath << std::endl;
+//  } else {
+//      std::cout << "Resource file does not exist: " << resourcePath << std::endl;
+//  }
+
+//  for (const auto& entry : fs::directory_iterator(currentPath)) {
+//    std::cout << entry.path().filename() << std::endl;
+//    listFilesRecursively(currentPath);
+//  }
   
   
   //  Shader ourShader("/Users/zhangjie/Documents/SFML learning/Echo First GLFW APP(static)/echo_shaders/echo_shader.vs", "/Users/zhangjie/Documents/SFML learning/Echo First GLFW APP(static)/echo_shaders/echo_shader.frag"); //✅
   
-  Shader ourShader("./echo_shaders/echo_shader.vs",  "./echo_shaders/echo_shader.frag");
+  //  Shader ourShader("./echo_shaders/echo_shader.vs",  "./echo_shaders/echo_shader.frag");
 }
 
 void modifyVAO_VBO_VEO() {
@@ -506,4 +535,57 @@ void loadAndCreateTexture() {
   glGenerateMipmap(GL_TEXTURE_2D);
   SOIL_free_image_data(image);
   glBindTexture(GL_TEXTURE_2D, 0); // Unbind texture when done, so we won't accidentily mess up our texture.
+}
+
+void listFilesRecursively(const std::filesystem::path& path)
+{
+    if (std::filesystem::is_directory(path))
+    {
+        for (const auto& entry : std::filesystem::directory_iterator(path))
+        {
+            if (std::filesystem::is_directory(entry))
+            {
+                listFilesRecursively(entry.path());
+            }
+            else
+            {
+                std::cout << entry.path() << std::endl;
+            }
+        }
+    }
+    else
+    {
+        std::cout << path << std::endl;
+    }
+}
+
+//const char* getResourcePathWith(const std::string &filename) {
+//  std::filesystem::path executableParentPath = std::filesystem::current_path();
+//  std::filesystem::path filePath = executableParentPath;
+//  filePath.append(filename);
+//
+////  const char* result = filePath.string().c_str();
+//  //Returning address of local temporary object
+//  return filePath.string().c_str();
+//}
+
+const char* concatenatePath(const std::filesystem::path& directoryPath, const std::string& filename)
+{
+  std::filesystem::path filePath = directoryPath;
+  filePath.append(filename);
+  std::string filePathString = filePath.string();
+  char* result = new char[filePathString.length() + 1];
+  std::strcpy(result, filePathString.c_str());
+  return result;
+}
+
+
+const char* getResourcePathWith(const std::string& filename)
+{
+  std::filesystem::path filePath = std::filesystem::current_path();
+  filePath.append("Resources/" + filename);
+  std::string filePathString = filePath.string();
+  char* result = new char[filePathString.length() + 1];
+  std::strcpy(result, filePathString.c_str());
+  return result;
 }

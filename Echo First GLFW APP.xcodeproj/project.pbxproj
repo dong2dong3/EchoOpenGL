@@ -29,7 +29,7 @@
 			isa = PBXCopyFilesBuildPhase;
 			buildActionMask = 12;
 			dstPath = Resources;
-			dstSubfolderSpec = 6;
+			dstSubfolderSpec = 7;
 			files = (
 				2FB47CEF2A59CF45008CF404 /* container.jpg in CopyFiles */,
 				2FB47CEC2A59CBAF008CF404 /* textures.frag in CopyFiles */,
