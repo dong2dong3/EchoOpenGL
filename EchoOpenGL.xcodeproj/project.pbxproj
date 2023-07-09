@@ -52,7 +52,7 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
-		2F9783A42A52E21300C3A861 /* Echo First GLFW APP */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = "Echo First GLFW APP"; sourceTree = BUILT_PRODUCTS_DIR; };
+		2F9783A42A52E21300C3A861 /* EchoOpenGL */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = EchoOpenGL; sourceTree = BUILT_PRODUCTS_DIR; };
 		2F9783AF2A52E23000C3A861 /* Cocoa.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Cocoa.framework; path = System/Library/Frameworks/Cocoa.framework; sourceTree = SDKROOT; };
 		2F9783B12A52E23B00C3A861 /* IOKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = IOKit.framework; path = System/Library/Frameworks/IOKit.framework; sourceTree = SDKROOT; };
 		2F9783B32A52E26A00C3A861 /* CoreVideo.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreVideo.framework; path = System/Library/Frameworks/CoreVideo.framework; sourceTree = SDKROOT; };
@@ -112,7 +112,7 @@
 		2F9783A52A52E21300C3A861 /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				2F9783A42A52E21300C3A861 /* Echo First GLFW APP */,
+				2F9783A42A52E21300C3A861 /* EchoOpenGL */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -203,9 +203,9 @@
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
-		2F9783A32A52E21300C3A861 /* Echo First GLFW APP */ = {
+		2F9783A32A52E21300C3A861 /* EchoOpenGL */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 2F9783AB2A52E21300C3A861 /* Build configuration list for PBXNativeTarget "Echo First GLFW APP" */;
+			buildConfigurationList = 2F9783AB2A52E21300C3A861 /* Build configuration list for PBXNativeTarget "EchoOpenGL" */;
 			buildPhases = (
 				2F9783A02A52E21300C3A861 /* Sources */,
 				2F9783A12A52E21300C3A861 /* Frameworks */,
@@ -216,9 +216,9 @@
 			);
 			dependencies = (
 			);
-			name = "Echo First GLFW APP";
+			name = EchoOpenGL;
 			productName = "Echo First GLFW APP";
-			productReference = 2F9783A42A52E21300C3A861 /* Echo First GLFW APP */;
+			productReference = 2F9783A42A52E21300C3A861 /* EchoOpenGL */;
 			productType = "com.apple.product-type.tool";
 		};
 /* End PBXNativeTarget section */
@@ -235,7 +235,7 @@
 					};
 				};
 			};
-			buildConfigurationList = 2F97839F2A52E21300C3A861 /* Build configuration list for PBXProject "Echo First GLFW APP" */;
+			buildConfigurationList = 2F97839F2A52E21300C3A861 /* Build configuration list for PBXProject "EchoOpenGL" */;
 			compatibilityVersion = "Xcode 14.0";
 			developmentRegion = en;
 			hasScannedForEncodings = 0;
@@ -248,7 +248,7 @@
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
-				2F9783A32A52E21300C3A861 /* Echo First GLFW APP */,
+				2F9783A32A52E21300C3A861 /* EchoOpenGL */,
 			);
 		};
 /* End PBXProject section */
@@ -430,7 +430,7 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
-		2F97839F2A52E21300C3A861 /* Build configuration list for PBXProject "Echo First GLFW APP" */ = {
+		2F97839F2A52E21300C3A861 /* Build configuration list for PBXProject "EchoOpenGL" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				2F9783A92A52E21300C3A861 /* Debug */,
@@ -439,7 +439,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		2F9783AB2A52E21300C3A861 /* Build configuration list for PBXNativeTarget "Echo First GLFW APP" */ = {
+		2F9783AB2A52E21300C3A861 /* Build configuration list for PBXNativeTarget "EchoOpenGL" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				2F9783AC2A52E21300C3A861 /* Debug */,
