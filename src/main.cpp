@@ -51,7 +51,7 @@ GLfloat mixValue = 0.2f;
 // Shaders
 const GLchar* vertexShaderSource =
 //"#version 330 core\n"
-//    "layout (location = 0) in vec3 position;\n"
+//    "layout (location = 0) in vec3 position;\n" -- layout (location = 0)与glVertexAttribPointer(0, 3,...)对应
 //    "void main()\n"
 //    "{\n"
 //    "gl_Position = vec4(position.x, position.y, position.z, 1.0);\n"
@@ -184,7 +184,7 @@ std::ostream& operator<<(std::ostream& os, const glm::mat4& mat) {
 }
 int main()
 {
-  std::cout << "Starting GLFW context, OpenGL 3.3" << std::endl;
+  std::cout << "Starting GLFW context, OpenGL 4.1" << std::endl;
 //  trans = glm::translate(trans, glm::vec3(1.0f, 1.0f, 0.0f));
 //  std::cout << trans << std::endl;
 //
@@ -216,7 +216,7 @@ int main()
     glfwTerminate();
     return -1;
   }
-  
+  //make window context before glewInit()
   glfwMakeContextCurrent(window);
   // Set the required callback functions
   glfwSetKeyCallback(window, key_callback);
@@ -229,6 +229,9 @@ int main()
     std::cout << "Failed to initialize GLEW" << std::endl;
     return -1;
   }
+  
+  // print opengl version
+  std::cout << "GL_VERSION = " << glGetString(GL_VERSION) << std::endl;
   
   // Define the viewport dimensions
   glViewport(0, 0, HEIGHT, WIDTH);

@@ -72,8 +72,15 @@ Shader::Shader(const GLchar* vertexPath, const GLchar* fragmentPath) {
     glGetShaderiv(fragment, GL_COMPILE_STATUS, &success);
     if (!success)
     {
-      glGetShaderInfoLog(fragment, 512, NULL, infoLog);
-      std::cout << "ERROR::SHADER::FRAGMENT::COMPILATION_FAILED\n" << infoLog << std::endl;
+//      glGetShaderInfoLog(fragment, 512, NULL, infoLog);
+//      std::cout << "ERROR::SHADER::FRAGMENT::COMPILATION_FAILED\n" << infoLog << std::endl;
+      // cherno way
+      int length;
+      glGetShaderiv(fragment, GL_INFO_LOG_LENGTH, &length);
+      char *message = (char *)alloca(length * sizeof(char));
+      glGetShaderInfoLog(vertex, length, &length, message);
+      std::cout << "Fail to compile" <<  (fragment == GL_VERTEX_SHADER ? "vertex": "fragment") << "shader!" << std::endl;
+      std::cout << message << std::endl;
     }
 
     // 着色器程序
@@ -81,6 +88,7 @@ Shader::Shader(const GLchar* vertexPath, const GLchar* fragmentPath) {
     glAttachShader(this->Program, vertex);
     glAttachShader(this->Program, fragment);
     glLinkProgram(this->Program);
+    glValidateProgram(this->Program);
     // 打印连接错误（如果有的话）
     glGetProgramiv(this->Program, GL_LINK_STATUS, &success);
     if(!success)
