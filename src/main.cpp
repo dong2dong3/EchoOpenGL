@@ -28,6 +28,12 @@
 #include "Vertices.h"
 #include "ChernoShader.hpp"
 
+/* 反斜杠后面不能有空格 */
+#define ASSERT(x) if (!(x)) __builtin_trap()
+#define GLCall(x) GLClearError(); \
+x; \
+ASSERT(GLLogCall(#x, __FILE__, __LINE__))
+
 void key_callback(GLFWwindow* window, int key, int scancode, int action, int mode);
 void loadAndCreateTexture();
 void draft_dir();
@@ -43,6 +49,26 @@ const char* getShadersResourcePathWith(const std::string& filename);
 // 自定义错误回调函数
 static void errorCallback(int error, const char* description) {
     std::cerr << "GLFW Error " << error << ": " << description << std::endl;
+}
+
+static void GLClearError() {
+  while (glGetError() != GL_NO_ERROR) {
+  }
+}
+
+static void GLCheckError() {
+  while (GLenum error = glGetError()) {
+    std::cout << "[OpenGL Error] (" << error << ")" << std::endl;
+  }
+}
+
+static bool GLLogCall(const char* function, const char* file, int line) {
+  while (GLenum error = glGetError()) {
+    std::cout << "[OpenGL Error] (" << error << ")" << function << " " << file << ":" <<
+    line << std::endl;
+    return false;
+  }
+  return true;
 }
 
 // Window dimensions
@@ -460,7 +486,6 @@ int main()
 //    glDrawArrays(GL_TRIANGLES, 0, 36);
 //    glBindVertexArray(0);
 
-    glBindVertexArray(VAO);
     for(GLuint i = 1; i < 11; i++)
     {
       glm::mat4 model = glm::mat4(1.0f);
@@ -474,6 +499,11 @@ int main()
       glUniformMatrix4fv(modelLoc, 1, GL_FALSE, glm::value_ptr(model));
 
       glDrawArrays(GL_TRIANGLES, 0, 36);
+      /**
+       [OpenGL Error] (1280)glDrawArrays(-1, 0, 36) /Users/zhangjie/Documents/SFML learning/EchoOpenGL/src/main.cpp:502
+       */
+//      GLCall(glDrawArrays(-1, 0, 36));
+      
     }
     glBindVertexArray(0);
 
