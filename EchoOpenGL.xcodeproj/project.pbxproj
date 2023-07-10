@@ -25,6 +25,7 @@
 		2FB47CFD2A5A97FF008CF404 /* textures.vs in CopyFiles */ = {isa = PBXBuildFile; fileRef = 2FB47CEA2A59C824008CF404 /* textures.vs */; };
 		2FB47CFF2A5AC706008CF404 /* awesomeface.png in CopyFiles */ = {isa = PBXBuildFile; fileRef = 2FB47CFE2A5AC1CA008CF404 /* awesomeface.png */; };
 		2FB47EAC2A5AFC5B008CF404 /* glm.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 2FB47DEF2A5AFC5B008CF404 /* glm.cpp */; };
+		2FB47EB22A5C4E62008CF404 /* basic_cherno.shader in CopyFiles */ = {isa = PBXBuildFile; fileRef = 2FB47EAE2A5C498A008CF404 /* basic_cherno.shader */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -45,6 +46,7 @@
 			dstPath = Resources/echo_shaders;
 			dstSubfolderSpec = 7;
 			files = (
+				2FB47EB22A5C4E62008CF404 /* basic_cherno.shader in CopyFiles */,
 				2FB47CFA2A5A97FF008CF404 /* echo_shader.vs in CopyFiles */,
 				2FB47CFB2A5A97FF008CF404 /* echo_shader.frag in CopyFiles */,
 				2FB47CFC2A5A97FF008CF404 /* textures.frag in CopyFiles */,
@@ -502,6 +504,8 @@
 		2FB47EAA2A5AFC5B008CF404 /* projection.inl */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = projection.inl; sourceTree = "<group>"; };
 		2FB47EAB2A5AFC5B008CF404 /* type_aligned.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = type_aligned.hpp; sourceTree = "<group>"; };
 		2FB47EAD2A5B2610008CF404 /* Vertices.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Vertices.h; sourceTree = "<group>"; };
+		2FB47EAE2A5C498A008CF404 /* basic_cherno.shader */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = basic_cherno.shader; sourceTree = "<group>"; };
+		2FB47EB02A5C4ADD008CF404 /* ChernoShader.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = ChernoShader.hpp; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -597,6 +601,7 @@
 		2FB47CC32A599A1E008CF404 /* echo_shaders */ = {
 			isa = PBXGroup;
 			children = (
+				2FB47EAE2A5C498A008CF404 /* basic_cherno.shader */,
 				2FB47CC42A599A1E008CF404 /* echo_shader.vs */,
 				2FB47CC52A599A1E008CF404 /* echo_shader.frag */,
 				2FB47CEB2A59C824008CF404 /* textures.frag */,
@@ -624,6 +629,7 @@
 				2FB47C992A597F98008CF404 /* Shader.hpp */,
 				2FB47CF72A5A7860008CF404 /* Shader.cpp */,
 				2FB47EAD2A5B2610008CF404 /* Vertices.h */,
+				2FB47EB02A5C4ADD008CF404 /* ChernoShader.hpp */,
 			);
 			path = src;
 			sourceTree = "<group>";

@@ -26,10 +26,12 @@
 #include <glm/gtc/matrix_transform.hpp>
 #include <glm/gtc/type_ptr.hpp>
 #include "Vertices.h"
+#include "ChernoShader.hpp"
 
 void key_callback(GLFWwindow* window, int key, int scancode, int action, int mode);
 void loadAndCreateTexture();
 void draft_dir();
+unsigned int createShaderProgram();
 void listFilesRecursively(const std::filesystem::path& path);
 //const char* getResourcePathWith(const std::string filename);
 const char* getResourcePathWith(const std::string& filename);
@@ -393,6 +395,7 @@ int main()
   
   
 //  draft_dir();
+  unsigned int chernoProgram = createShaderProgram();
   // Game loop
   int seed = 0;
   while (!glfwWindowShouldClose(window))
@@ -410,19 +413,20 @@ int main()
 //    glUseProgram(shaderProgram);
     
     // Activate Shader
-    ourShader.Use();
+//    ourShader.Use();
+    glUseProgram(chernoProgram);
     
     // Bind Texture
 //    glBindTexture(GL_TEXTURE_2D, texture);
     glActiveTexture(GL_TEXTURE0);
     glBindTexture(GL_TEXTURE_2D, texture);
-    glUniform1i(glGetUniformLocation(ourShader.Program, "ourTexture1"), 0);
+    glUniform1i(glGetUniformLocation(chernoProgram, "ourTexture1"), 0);
     glActiveTexture(GL_TEXTURE1);
     glBindTexture(GL_TEXTURE_2D, texture2);
-    glUniform1i(glGetUniformLocation(ourShader.Program, "ourTexture2"), 1);
+    glUniform1i(glGetUniformLocation(chernoProgram, "ourTexture2"), 1);
     
     // Set current value of uniform mix
-    glUniform1f(glGetUniformLocation(ourShader.Program, "mixValue"), mixValue);
+    glUniform1f(glGetUniformLocation(chernoProgram, "mixValue"), mixValue);
     
     //要让箱子随着时间推移旋转，我们必须在游戏循环中更新变换矩阵，因为它在每一次渲染迭代中都要更新。
 //    glm::vec4 vec(1.0f, 0.0f, 0.0f, 1.0f);
@@ -441,9 +445,9 @@ int main()
     view = glm::translate(view, glm::vec3(0.0f, 0.0f, -3.0f));
     projection = glm::perspective(45.0f, (GLfloat)WIDTH / (GLfloat)HEIGHT, 0.1f, 100.0f);
     // Get their uniform location
-    GLint modelLoc = glGetUniformLocation(ourShader.Program, "model");
-    GLint viewLoc = glGetUniformLocation(ourShader.Program, "view");
-    GLint projLoc = glGetUniformLocation(ourShader.Program, "projection");
+    GLint modelLoc = glGetUniformLocation(chernoProgram, "model");
+    GLint viewLoc = glGetUniformLocation(chernoProgram, "view");
+    GLint projLoc = glGetUniformLocation(chernoProgram, "projection");
     // Pass them to the shaders
 //    glUniformMatrix4fv(modelLoc, 1, GL_FALSE, glm::value_ptr(model));
     glUniformMatrix4fv(viewLoc, 1, GL_FALSE, glm::value_ptr(view));
@@ -804,4 +808,13 @@ const char* getShadersResourcePathWith(const std::string& filename)
   char* result = new char[filePathString.length() + 1];
   std::strcpy(result, filePathString.c_str());
   return result;
+}
+
+unsigned int createShaderProgram() {
+  
+  ShaderProgramSource source = ParseShader(getShadersResourcePathWith("basic_cherno.shader"));
+  
+//  std::cout << "VERTEX" <<source.VertexSource<< "FRAGMENT" << source.FragmentSource << std::endl;
+  unsigned int program = CreateShader(source.VertexSource, source.FragmentSource);
+  return program;
 }
