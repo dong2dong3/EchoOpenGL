@@ -28,6 +28,10 @@
 #include "Vertices.h"
 #include "ChernoShader.hpp"
 
+#include <assimp/cimport.h>
+#include <assimp/scene.h>
+#include <assimp/postprocess.h>
+
 /* 反斜杠后面不能有空格 */
 #define ASSERT(x) if (!(x)) __builtin_trap()
 #define GLCall(x) GLClearError(); \
